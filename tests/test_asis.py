@@ -2,6 +2,7 @@ import pytest
 import datetime
 import pyarrow as pa
 from datar_arrow.utils import make_array
+from datar_arrow.arrow_ext import DatarArray
 from datar.base import (
     is_atomic,
     is_character,
@@ -205,6 +206,11 @@ def test_is(fn, x, expected):
         (as_integer, "1", 1),
         (as_integer, make_array("1"), 1),
         (as_integer, pa.array(["1", "2", "2"]).dictionary_encode(), [0, 1, 1]),
+        (
+            as_integer,
+            DatarArray.create(pa.array(["1", "2", "2"]).dictionary_encode()),
+            [0, 1, 1],
+        ),
         # (as_integer, [make_array("1")], [1]),
         (as_logical, 1, True),
         (as_logical, 1.0, True),

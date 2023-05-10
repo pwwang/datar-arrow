@@ -13,7 +13,7 @@ from ..utils import make_array
         pa.Time64Scalar,
         pa.Time32Scalar,
         pa.Date64Scalar,
-        pa.Date32Scalar
+        pa.Date32Scalar,
     ),
     backend="arrow",
 )

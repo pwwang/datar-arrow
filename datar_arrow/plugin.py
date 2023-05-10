@@ -27,6 +27,7 @@ def base_api():
         trig,
         which,
     )
+
     return {
         "pi": constants.pi,
         "letters": constants.letters,

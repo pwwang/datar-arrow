@@ -42,6 +42,7 @@ class DatarArray(pa.ExtensionArray):
 
     Unless pyarrow supports them natively, we will implement them here.
     """
+
     dictionary = None
     indices = None
     _dictionary_array = None

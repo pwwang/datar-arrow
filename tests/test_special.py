@@ -80,7 +80,9 @@ def test_gamma():
 def test_lfactorial():
     assert_equal(lfactorial(1), 0)
     assert_iterable_equal(lfactorial([1, 2]), [0, 0.6931471805599453])
-    assert_iterable_equal(lfactorial(pa.array([1, 2])), [0, 0.6931471805599453])
+    assert_iterable_equal(
+        lfactorial(pa.array([1, 2])), [0, 0.6931471805599453]
+    )
 
 
 def test_lchoose():

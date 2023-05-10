@@ -78,9 +78,11 @@ def wrap_arrow_value(x: Any) -> Any:
 
 def wrap_arrow_result(fn: Callable) -> Callable:
     """Decorator to ensure the return value is not a pyarrow type"""
+
     @wraps(fn)
     def wrapper(*args, **kwargs):
         return wrap_arrow_value(fn(*args, **kwargs))
+
     return wrapper
 
 
@@ -119,6 +121,7 @@ def is_null(x: Any) -> bool | pa.BooleanArray:
         If x is an array, return a boolean array with the same shape as x.
     """
     from .arrow_ext import DatarArray
+
     if isinstance(x, DatarArray):
         x = x.storage
     return pc.is_null(x, nan_is_null=True)
@@ -127,6 +130,7 @@ def is_null(x: Any) -> bool | pa.BooleanArray:
 def make_array(x: Any, dtype: type | pa.DataType = None) -> DatarArray:
     """Make an array from x"""
     from .arrow_ext import DatarArray
+
     if isinstance(x, DatarArray):
         return x
 
@@ -138,7 +142,9 @@ def make_array(x: Any, dtype: type | pa.DataType = None) -> DatarArray:
         x = pa.array(
             x,
             type=dtype,
-            mask=pc.is_null(x, nan_is_null=True).to_numpy(zero_copy_only=False),
+            mask=pc.is_null(x, nan_is_null=True).to_numpy(
+                zero_copy_only=False
+            ),
         )
     elif isinstance(x, pa.Array):
         x = x.cast(dtype) if dtype is not None else x
@@ -177,8 +183,7 @@ def broadcast_arrays(*arrs: Any) -> Tuple[pa.Array]:
         raise ValueError("Arrays must be of length 1 or the max length")
 
     return tuple(
-        arr if len(arr) == maxlen
-        else make_array(pa.repeat(arr[0], maxlen))
+        arr if len(arr) == maxlen else make_array(pa.repeat(arr[0], maxlen))
         for arr in arrs
     )
 

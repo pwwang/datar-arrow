@@ -42,7 +42,7 @@ def _acosh(x):
             pc.multiply(
                 pc.sqrt(pc.subtract(x, 1)),
                 pc.sqrt(pc.add(x, 1)),
-            )
+            ),
         )
     )
 

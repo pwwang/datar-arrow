@@ -160,7 +160,15 @@ def _as_integer(x: Any) -> int | pa.IntegerArray:
 
 @as_integer.register(pa.DictionaryArray, backend="arrow")
 @wrap_arrow_result
-def _as_integer(x: pa.DictionaryArray) -> int | pa.IntegerArray:
+def _as_integer_dict_array(x: pa.DictionaryArray) -> int | pa.IntegerArray:
+    return x.indices
+
+
+@as_integer.register(DatarArray, backend="arrow")
+@wrap_arrow_result
+def _as_integer_factor(x: DatarArray) -> int | pa.IntegerArray:
+    if x.dictionary is None:
+        return _as_integer(x)
     return x.indices
 
 

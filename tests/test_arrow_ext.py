@@ -20,14 +20,14 @@ def test_binop():
     assert_iterable_equal(x * 2, [2, 4, 6])
     assert_iterable_equal(2 * x, [2, 4, 6])
 
-    assert_iterable_equal(x / 2., [0.5, 1, 1.5])
-    assert_iterable_equal(2. / x, [2., 1., 2. / 3.], approx=True)
+    assert_iterable_equal(x / 2.0, [0.5, 1, 1.5])
+    assert_iterable_equal(2.0 / x, [2.0, 1.0, 2.0 / 3.0], approx=True)
 
     assert_iterable_equal(x // 2, [0, 1, 1])
     assert_iterable_equal(2 // x, [2, 1, 0])
 
-    assert_iterable_equal(x ** 2, [1, 4, 9])
-    assert_iterable_equal(2 ** x, [2, 4, 8])
+    assert_iterable_equal(x**2, [1, 4, 9])
+    assert_iterable_equal(2**x, [2, 4, 8])
 
     assert_iterable_equal(x % 2, [1, 0, 1])
     assert_iterable_equal(2 % x, [0, 0, 2])

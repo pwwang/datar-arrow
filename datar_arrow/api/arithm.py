@@ -96,8 +96,7 @@ def _median(x, na_rm: bool = False):
 def _pmax(x, *more, na_rm: bool = False):
     arrs = transpose_arrays(x, *more)
     return make_array(
-        pc.max(arr.storage, skip_nulls=na_rm).as_py()
-        for arr in arrs
+        pc.max(arr.storage, skip_nulls=na_rm).as_py() for arr in arrs
     )
 
 
@@ -105,8 +104,7 @@ def _pmax(x, *more, na_rm: bool = False):
 def _pmin(x, *more, na_rm: bool = False):
     arrs = transpose_arrays(x, *more)
     return make_array(
-        pc.min(arr.storage, skip_nulls=na_rm).as_py()
-        for arr in arrs
+        pc.min(arr.storage, skip_nulls=na_rm).as_py() for arr in arrs
     )
 
 
@@ -268,7 +266,9 @@ def _weighted_mean(x, w=None, na_rm: bool = False):
         return None
 
     return pc.divide(
-        pc.sum(pc.multiply(make_array(x).storage, w.storage), skip_nulls=na_rm),
+        pc.sum(
+            pc.multiply(make_array(x).storage, w.storage), skip_nulls=na_rm
+        ),
         pc.sum(w.storage, skip_nulls=na_rm).cast("double"),
     )
 
@@ -311,4 +311,4 @@ def _quantile(
 @wrap_arrow_result
 def _proportions(x, margin=None):
     x = make_array(x)
-    return pc.divide(x.storage.cast('float64'), pc.sum(x.storage))
+    return pc.divide(x.storage.cast("float64"), pc.sum(x.storage))

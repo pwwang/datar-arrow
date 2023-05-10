@@ -133,8 +133,7 @@ def _rank(x, na_last: bool = True, ties_method: str = "average"):
         from scipy import stats
     except ImportError as imperr:  # pragma: no cover
         raise ImportError(
-            "`rank` requires `scipy` package.\n"
-            "Try: pip install -U scipy"
+            "`rank` requires `scipy` package.\n" "Try: pip install -U scipy"
         ) from imperr
 
     return make_array(stats.rankdata(x, method=ties_method))
@@ -170,7 +169,9 @@ def _seq(
     along_with=None,
 ):
     if along_with is not None:
-        return seq_along(along_with, __backend="arrow", __ast_fallback="normal")
+        return seq_along(
+            along_with, __backend="arrow", __ast_fallback="normal"
+        )
 
     if not is_scalar(from_):
         return seq_along(from_, __backend="arrow", __ast_fallback="normal")
@@ -222,13 +223,11 @@ def _seq_len_obj(length_out):
         pa.Int32Scalar,
         pa.Int64Scalar,
     ),
-    backend="arrow"
+    backend="arrow",
 )
 def _seq_len_int(length_out):
     length_out = (
-        length_out.as_py()
-        if isinstance(length_out, pa.Scalar)
-        else length_out
+        length_out.as_py() if isinstance(length_out, pa.Scalar) else length_out
     )
     return make_array(np.arange(length_out) + 1)
 

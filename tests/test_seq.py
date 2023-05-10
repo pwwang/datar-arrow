@@ -103,7 +103,9 @@ def test_sort():
 
 def test_rank():
     assert_iterable_equal(rank([1, 2, 2, 3]), [1.0, 2.5, 2.5, 4.0])
-    assert_iterable_equal(rank([1, 2, 2, 3], ties_method="dense"), [1, 2, 2, 3])
+    assert_iterable_equal(
+        rank([1, 2, 2, 3], ties_method="dense"), [1, 2, 2, 3]
+    )
     assert_iterable_equal(rank([1, 2, 2, 3], ties_method="min"), [1, 2, 2, 4])
     assert_iterable_equal(rank([1, 2, 2, 3], ties_method="max"), [1, 3, 3, 4])
 

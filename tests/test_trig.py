@@ -35,7 +35,8 @@ def test_acos():
 def test_acosh():
     assert_equal(acosh(1.5), 0.9624236501192069, approx=True)
     assert_iterable_equal(
-        acosh(make_array([1.5, 1.6])), [0.9624236501192069, 1.0469679150031885],
+        acosh(make_array([1.5, 1.6])),
+        [0.9624236501192069, 1.0469679150031885],
         approx=True,
     )
 
@@ -52,7 +53,8 @@ def test_asin():
 def test_asinh():
     assert_equal(asinh(1.5), 1.1947632172871094, approx=True)
     assert_iterable_equal(
-        asinh(make_array([1.5, 1.6])), [1.1947632172871094, 1.2489833279048763],
+        asinh(make_array([1.5, 1.6])),
+        [1.1947632172871094, 1.2489833279048763],
         approx=True,
     )
 
@@ -78,7 +80,8 @@ def test_atanh():
 def test_cos():
     assert_equal(cos(0.5), pc.cos(0.5).as_py(), approx=True)
     assert_iterable_equal(
-        cos(make_array([0.5, 0.6])), [pc.cos(0.5).as_py(), pc.cos(0.6).as_py()],
+        cos(make_array([0.5, 0.6])),
+        [pc.cos(0.5).as_py(), pc.cos(0.6).as_py()],
         approx=True,
     )
 
@@ -104,7 +107,8 @@ def test_cospi():
 def test_sin():
     assert_equal(sin(0.5), pc.sin(0.5).as_py(), approx=True)
     assert_iterable_equal(
-        sin(make_array([0.5, 0.6])), [pc.sin(0.5).as_py(), pc.sin(0.6).as_py()],
+        sin(make_array([0.5, 0.6])),
+        [pc.sin(0.5).as_py(), pc.sin(0.6).as_py()],
         approx=True,
     )
 
