@@ -1,4 +1,6 @@
+from __future__ import annotations
 from typing import List
+
 import numpy as np
 import pyarrow as pa
 import pyarrow.compute as pc
