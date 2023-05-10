@@ -17,6 +17,8 @@ from datar.base import (
     tail,
     NA,
 )
+
+from datar_arrow.utils import make_array
 from .utils import assert_iterable_equal, assert_equal
 
 
@@ -92,6 +94,7 @@ def test_setequal():
 def test_unique():
     assert_iterable_equal(unique([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     assert_iterable_equal(unique([1, 2, 3, 4, 5, 1]), [1, 2, 3, 4, 5])
+    assert_iterable_equal(unique(make_array([1, 2, 3, 4, 1])), [1, 2, 3, 4])
 
 
 def test_union():

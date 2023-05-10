@@ -42,6 +42,9 @@ class DatarArray(pa.ExtensionArray):
 
     Unless pyarrow supports them natively, we will implement them here.
     """
+    dictionary = None
+    indices = None
+    _dictionary_array = None
 
     def __add__(self, other):
         return _binop(pc.add, self, other)
@@ -176,6 +179,14 @@ class DatarArray(pa.ExtensionArray):
 
     @classmethod
     def create(cls, arr):
+        if isinstance(arr, pa.DictionaryArray):
+            values = arr.dictionary_decode()
+            out = cls.from_storage(DatarArrayType(values.type), values)
+            out.dictionary = arr.dictionary
+            out.indices = arr.indices
+            out._dictionary_array = arr
+            return out
+
         return pa.ExtensionArray.from_storage(DatarArrayType(arr.type), arr)
 
 

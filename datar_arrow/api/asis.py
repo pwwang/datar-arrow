@@ -158,6 +158,12 @@ def _as_integer(x: Any) -> int | pa.IntegerArray:
     return out[0] if x_scalar else out
 
 
+@as_integer.register(pa.DictionaryArray, backend="arrow")
+@wrap_arrow_result
+def _as_integer(x: pa.DictionaryArray) -> int | pa.IntegerArray:
+    return x.indices
+
+
 @as_logical.register(object, backend="arrow")
 @wrap_arrow_result
 def _as_logical(x: Any) -> bool | pa.BooleanArray:

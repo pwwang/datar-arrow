@@ -18,6 +18,7 @@ def base_api():
         constants,
         cum,
         date,
+        factor,
         random,
         seq,
         sets,

@@ -204,6 +204,7 @@ def test_is(fn, x, expected):
         (as_integer, 1.1, 1),
         (as_integer, "1", 1),
         (as_integer, make_array("1"), 1),
+        (as_integer, pa.array(["1", "2", "2"]).dictionary_encode(), [0, 1, 1]),
         # (as_integer, [make_array("1")], [1]),
         (as_logical, 1, True),
         (as_logical, 1.0, True),
