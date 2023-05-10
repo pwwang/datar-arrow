@@ -23,6 +23,7 @@ from datar.apis.base import (
 
 from .constants import NA
 from ..utils import make_array, is_null, is_scalar, wrap_arrow_result
+from ..arrow_ext import DatarArray
 
 
 @all_.register(object, backend="arrow")
@@ -109,38 +110,45 @@ def _duplicated(x, incomparables=None, from_last: bool = False):
 
 
 @intersect.register(object, backend="arrow")
+@wrap_arrow_result
 def _intersect(x, y):
     x = make_array(x)
-    out, idx, _ = np.intersect1d(x, y, return_indices=True)
-    return make_array(out[np.argsort(idx)], dtype=x.type)
+    y = make_array(y)
+    idx = pc.index_in(y.storage, x.storage).drop_null()
+    return x.take(idx)
 
 
 @setdiff.register(object, backend="arrow")
+@wrap_arrow_result
 def _setdiff(x, y):
     x = make_array(x)
-    out = x[np.flatnonzero(~np.in1d(x, y))]
-    return unique(out, __backend="arrow", __ast_fallback="normal")
+    y = make_array(y)
+    idx = pc.indices_nonzero(pc.invert(pc.is_in(x.storage, y.storage)))
+    return x.storage.take(idx).unique()
 
 
 @setequal.register(object, backend="arrow")
 def _setequal(x, y):
-    return np.array_equal(np.unique(x), np.unique(y))
+    x = make_array(x).storage.unique().sort()
+    y = make_array(y).storage.unique().sort()
+    return x.equals(y)
 
 
 @unique.register(object, backend="arrow")
+@wrap_arrow_result
 def _unique(x):
-    x = make_array(x)
-    out, idx = np.unique(x, return_index=True)
-    return make_array(out[np.argsort(idx)], dtype=x.type)
+    if isinstance(x, DatarArray):
+        x = x.storage
+    return pc.unique(x)
 
 
 @union.register(object, backend="arrow")
+@wrap_arrow_result
 def _union(x, y):
     x = make_array(x)
     y = make_array(y)
-    out = np.concatenate([x, y])
-    out, idx = np.unique(out, return_index=True)
-    return make_array(out[np.argsort(idx)], dtype=x.type)
+    out = pa.concat_arrays([x.storage, y.storage])
+    return out.unique()
 
 
 @head.register(object, backend="arrow")
