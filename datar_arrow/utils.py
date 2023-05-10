@@ -108,7 +108,7 @@ def is_scalar(x: Any) -> bool:
 
 
 @wrap_arrow_result
-def is_null(x: Any) -> bool | pa.Array:
+def is_null(x: Any) -> bool | pa.BooleanArray:
     """Is x None or NA? Like pandas.isnull()
 
     Args:

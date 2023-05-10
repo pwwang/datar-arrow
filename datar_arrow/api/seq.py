@@ -90,7 +90,7 @@ def _length(x):
 
 
 @lengths.register(object, backend="arrow")
-def _lengths(x) -> pa.Array:
+def _lengths(x) -> pa.IntegerArray:
     return (
         make_array(1)
         if is_scalar(x)

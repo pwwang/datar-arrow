@@ -53,13 +53,15 @@ def c_getitem(item):
         return flatten_slice(item)
 
     elif isinstance(item, tuple):
-        return pa.concat_arrays(
-            [
-                flatten_slice(i)
-                if isinstance(i, slice)
-                else make_array(i)
-                for i in item
-            ]
+        return make_array(
+            pa.concat_arrays(
+                [
+                    flatten_slice(i).storage
+                    if isinstance(i, slice)
+                    else make_array(i).storage
+                    for i in item
+                ]
+            )
         )
 
     return item

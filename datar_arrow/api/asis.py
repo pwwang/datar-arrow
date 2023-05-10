@@ -73,7 +73,7 @@ def _is_element(x: Any, y: Any) -> bool:
 
 @is_finite.register(object, backend="arrow")
 @wrap_arrow_result
-def _is_finite(x: Any) -> bool | pa.Array:
+def _is_finite(x: Any) -> bool | pa.BooleanArray:
     if isinstance(x, DatarArray):
         x = x.storage
     return pc.is_finite(x)
@@ -88,7 +88,7 @@ def _is_false(x: Any) -> bool:
 
 @is_infinite.register(object, backend="arrow")
 @wrap_arrow_result
-def _is_infinite(x: Any) -> bool | pa.Array:
+def _is_infinite(x: Any) -> bool | pa.BooleanArray:
     if isinstance(x, DatarArray):
         x = x.storage
     return pc.is_inf(x)
@@ -101,7 +101,7 @@ def _is_logical(x: Any) -> bool:
 
 @is_na.register(object, backend="arrow")
 @wrap_arrow_result
-def _is_na(x: Any) -> bool | pa.Array:
+def _is_na(x: Any) -> bool | pa.BooleanArray:
     if isinstance(x, DatarArray):
         x = x.storage
     return pc.is_nan(x)
@@ -127,7 +127,7 @@ def _is_true(x: Any) -> bool:
 
 @as_character.register(object, backend="arrow")
 @wrap_arrow_result
-def _as_character(x: Any) -> str | pa.Array:
+def _as_character(x: Any) -> str | pa.BooleanArray:
     x_scalar = is_scalar(x)
     out = make_array(x).cast("string")
     return out[0] if x_scalar else out
@@ -140,7 +140,7 @@ def _as_complex(x: Any):  # pragma: no cover
 
 @as_double.register(object, backend="arrow")
 @wrap_arrow_result
-def _as_double(x: Any) -> float | pa.Array:
+def _as_double(x: Any) -> float | pa.FloatingPointArray:
     x_scalar = is_scalar(x)
     out = make_array(x).cast("double")
     return out[0] if x_scalar else out
@@ -148,7 +148,7 @@ def _as_double(x: Any) -> float | pa.Array:
 
 @as_integer.register(object, backend="arrow")
 @wrap_arrow_result
-def _as_integer(x: Any) -> int | pa.Array:
+def _as_integer(x: Any) -> int | pa.IntegerArray:
     x_scalar = is_scalar(x)
     out = make_array(x)
     if patypes.is_floating(out.type):
@@ -160,7 +160,7 @@ def _as_integer(x: Any) -> int | pa.Array:
 
 @as_logical.register(object, backend="arrow")
 @wrap_arrow_result
-def _as_logical(x: Any) -> bool | pa.Array:
+def _as_logical(x: Any) -> bool | pa.BooleanArray:
     x_scalar = is_scalar(x)
     out = make_array(x)
     if patypes.is_string(out.type):
