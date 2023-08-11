@@ -9,7 +9,7 @@ packages = [{include = "datar_arrow"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-datar = "^0.12"
+datar = "^0.13"
 pyarrow = "^11"
 
 [tool.poetry.build]
