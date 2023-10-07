@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "datar-arrow"
-version = "0.0.1"
+version = "0.1.0"
 description = "The pyarrow backend for datar"
 authors = ["pwwang <pwwang@pwwang.com>"]
 license = "MIT"
