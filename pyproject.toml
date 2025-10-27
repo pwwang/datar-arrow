@@ -24,7 +24,7 @@ generate-setup-file = true
 [tool.poetry.plugins.datar]
 arrow = "datar_arrow:plugin"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^7"
 pytest-cov = "^4"
 
