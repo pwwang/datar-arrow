@@ -8,10 +8,10 @@ readme = "README.md"
 packages = [{include = "datar_arrow"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 datar = "^0.15"
 # datar = { path = "../datar" }
-pyarrow = "^13"
+pyarrow = "^20"
 scipy = { version = "^1.6", optional = true }
 wcwidth = { version = "^0.2", optional = true }
 

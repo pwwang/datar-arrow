@@ -104,9 +104,12 @@ def is_scalar(x: Any) -> bool:
     if isinstance(x, type):
         return True
 
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore", np.VisibleDeprecationWarning)
-        return np.ndim(x) == 0
+    if hasattr(np, "VisibleDeprecationWarning"):  # pragma: no cover
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", np.VisibleDeprecationWarning)
+            return np.ndim(x) == 0
+
+    return np.ndim(x) == 0
 
 
 @wrap_arrow_result
