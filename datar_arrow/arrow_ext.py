@@ -191,12 +191,36 @@ class DatarArray(pa.ExtensionArray):
         return pa.ExtensionArray.from_storage(DatarArrayType(arr.type), arr)
 
 
-class DatarArrayType(pa.PyExtensionType):
-    def __init__(self, t: type | pa.DataType | str):
-        pa.PyExtensionType.__init__(self, get_dtype(t))
+if hasattr(pa, "PyExtensionType"):
 
-    def __reduce__(self):
-        return DatarArrayType, ()
+    class DatarArrayType(pa.PyExtensionType):
+        def __init__(self, t: type | pa.DataType | str):
+            pa.PyExtensionType.__init__(self, get_dtype(t))
 
-    def __arrow_ext_class__(self):
-        return DatarArray
+        def __reduce__(self):
+            return DatarArrayType, ()
+
+        def __arrow_ext_class__(self):
+            return DatarArray
+
+else:
+
+    class DatarArrayType(pa.ExtensionType):  # pragma: no cover
+        def __init__(self, t: type | pa.DataType | str):
+            storage_type = get_dtype(t)
+            super().__init__(storage_type, 'datar.array')
+
+        def __reduce__(self):
+            return DatarArrayType, (self.storage_type,)
+
+        def __arrow_ext_serialize__(self):
+            # No additional metadata to serialize
+            return b''
+
+        @classmethod
+        def __arrow_ext_deserialize__(cls, storage_type, serialized):
+            # Reconstruct from storage type
+            return cls(storage_type)
+
+        def __arrow_ext_class__(self):
+            return DatarArray
