@@ -1,6 +1,6 @@
 [project]
 name = "datar-arrow"
-version = "0.2.0"
+version = "0.2.1"
 description = "The pyarrow backend for datar"
 authors = [{name = "pwwang", email = "pwwang@pwwang.com"}]
 license = {text = "MIT"}
