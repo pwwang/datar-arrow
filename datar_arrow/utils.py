@@ -3,7 +3,7 @@ from __future__ import annotations
 import inspect
 import warnings
 from functools import wraps
-from typing import TYPE_CHECKING, Any, Callable, Tuple
+from typing import TYPE_CHECKING, Any, Callable
 
 import numpy as np
 import pyarrow as pa
@@ -163,7 +163,7 @@ def make_array(x: Any, dtype: type | pa.DataType = None) -> DatarArray:
     return DatarArray.create(x)
 
 
-def flatten_slice(x: slice) -> DatarArray[int]:
+def flatten_slice(x: slice) -> DatarArray:
     """Flatten a slice into an array of integers"""
     start = x.start or 0
     stop = x.stop or 0
@@ -173,7 +173,7 @@ def flatten_slice(x: slice) -> DatarArray[int]:
     return make_array(range(start, stop, step))
 
 
-def broadcast_arrays(*arrs: Any) -> Tuple[pa.Array]:
+def broadcast_arrays(*arrs: Any) -> tuple["DatarArray", ...]:
     """Broadcast arrays to the same shape"""
     arrs = tuple(make_array(arr) for arr in arrs)
     lens = set(len(arr) for arr in arrs)
@@ -191,7 +191,7 @@ def broadcast_arrays(*arrs: Any) -> Tuple[pa.Array]:
     )
 
 
-def transpose_arrays(*arrs: Any) -> Tuple[pa.Array]:
+def transpose_arrays(*arrs: Any) -> tuple["DatarArray", ...]:
     """Transpose arrays"""
     arrs = broadcast_arrays(*arrs)
     # Is there a better way to do this?

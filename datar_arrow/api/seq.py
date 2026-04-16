@@ -38,8 +38,7 @@ def _rep(
     if len(length) >= 1:
         if len(length) > 1:
             logger.warning(
-                "[datar_arrow] "
-                "In rep(...): first element used of 'length' argument"
+                "[datar_arrow] " "In rep(...): first element used of 'length' argument"
             )
         length = length[0]
     if len(each) == 1:
@@ -48,14 +47,11 @@ def _rep(
     if not is_scalar(times):
         if len(times) != len(x):
             raise ValueError(
-                "Invalid times argument, expect length "
-                f"{len(x)}, got {len(times)}"
+                "Invalid times argument, expect length " f"{len(x)}, got {len(times)}"
             )
 
         if not isinstance(each, int) or each != 1:
-            raise ValueError(
-                "Unexpected each argument when times is an iterable."
-            )
+            raise ValueError("Unexpected each argument when times is an iterable.")
 
     if is_scalar(times) and isinstance(times, int):
         x = make_array(np.tile(np.repeat(x, each), times), dtype=xtype)
@@ -76,9 +72,15 @@ def _rep(
 def _c(*args):
     return pa.concat_arrays(
         [
-            make_array(xi).storage
-            if is_scalar(xi)
-            else c_(*xi, __backend="arrow", __ast_fallback="normal").storage
+            (
+                make_array(xi).storage
+                if is_scalar(xi)
+                else c_(
+                    *xi,
+                    __backend="arrow",  # type: ignore
+                    __ast_fallback="normal",  # type: ignore
+                ).storage
+            )
             for xi in args
         ]
     )
@@ -92,9 +94,7 @@ def _length(x):
 @lengths.register(object, backend="arrow")
 def _lengths(x) -> pa.IntegerArray:
     return (
-        make_array(1)
-        if is_scalar(x)
-        else make_array([len(make_array(xi)) for xi in x])
+        make_array(1) if is_scalar(x) else make_array([len(make_array(xi)) for xi in x])
     )
 
 
@@ -118,8 +118,8 @@ def _sort(x, decreasing: bool = False, na_last: bool = True):
         x,
         decreasing=decreasing,
         na_last=na_last,
-        __ast_fallback="normal",
-        __backend="arrow",
+        __ast_fallback="normal",  # type: ignore
+        __backend="arrow",  # type: ignore
     )
     return x.take(idx)
 
@@ -147,9 +147,9 @@ def _rev(x):
 @sample.register(object, backend="arrow")
 def _sample(
     x,
-    size: int = None,
+    size: int | None = None,
     replace: bool = False,
-    prob: float | np.ndarray[float] = None,
+    prob: float | np.ndarray | None = None,
 ):
     x = make_array(x)
     size = len(x) if size is None else int(size)
@@ -170,19 +170,32 @@ def _seq(
 ):
     if along_with is not None:
         return seq_along(
-            along_with, __backend="arrow", __ast_fallback="normal"
+            along_with,
+            __backend="arrow",  # type: ignore
+            __ast_fallback="normal",  # type: ignore
         )
 
     if not is_scalar(from_):
-        return seq_along(from_, __backend="arrow", __ast_fallback="normal")
+        return seq_along(
+            from_,
+            __backend="arrow",  # type: ignore
+            __ast_fallback="normal",  # type: ignore
+        )
 
     if length_out is not None and from_ is None and to is None:
-        return seq_len(length_out, __backend="arrow", __ast_fallback="normal")
+        return seq_len(
+            length_out,
+            __backend="arrow",  # type: ignore
+            __ast_fallback="normal",  # type: ignore
+        )
 
     if from_ is None:
         from_ = 1
     elif to is None:
         from_, to = 1, from_
+
+    if to is None:  # pragma: no cover
+        to = from_
 
     if length_out is not None:
         by = (float(to) - float(from_)) / float(length_out)
@@ -226,9 +239,7 @@ def _seq_len_obj(length_out):
     backend="arrow",
 )
 def _seq_len_int(length_out):
-    length_out = (
-        length_out.as_py() if isinstance(length_out, pa.Scalar) else length_out
-    )
+    length_out = length_out.as_py() if isinstance(length_out, pa.Scalar) else length_out
     return make_array(np.arange(length_out) + 1)
 
 

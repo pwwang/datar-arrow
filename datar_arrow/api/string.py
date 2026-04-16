@@ -86,7 +86,7 @@ def _sub_(
     x: DatarArray,
     ignore_case: bool = False,
     fixed: bool = False,
-    count: int = 1,
+    count: int | None = 1,
     fun: str = "sub",
 ) -> pa.StringArray:
     """Replace a pattern with replacement for elements in x,

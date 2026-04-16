@@ -27,14 +27,10 @@ def _bessel_i(x, nu, expon_scaled: bool = False):
         fn = "ive" if expon_scaled else "iv"
         out = make_array(_get_special_func_from_scipy(fn)(nu, x))
     else:
-        if nu == 0 and expon_scaled:
-            fn = "i0e"
-        elif nu == 1 and expon_scaled:
-            fn = "i1e"
-        elif nu == 0 and not expon_scaled:
-            fn = "i0"
-        elif nu == 1 and not expon_scaled:
-            fn = "i1"
+        if expon_scaled:
+            fn = "i0e" if nu == 0 else "i1e"
+        else:
+            fn = "i0" if nu == 0 else "i1"
         out = make_array(_get_special_func_from_scipy(fn)(x))
 
     return out[0] if is_scalar(x) else out
@@ -59,14 +55,10 @@ def _bessel_k(x, nu, expon_scaled: bool = False):
         fn = "kve" if expon_scaled else "kv"
         out = make_array(_get_special_func_from_scipy(fn)(nu, x))
     else:
-        if nu == 0 and expon_scaled:
-            fn = "k0e"
-        elif nu == 1 and expon_scaled:
-            fn = "k1e"
-        elif nu == 0 and not expon_scaled:
-            fn = "k0"
-        elif nu == 1 and not expon_scaled:
-            fn = "k1"
+        if expon_scaled:
+            fn = "k0e" if nu == 0 else "k1e"
+        else:
+            fn = "k0" if nu == 0 else "k1"
         out = make_array(_get_special_func_from_scipy(fn)(x))
 
     return out[0] if is_scalar(x) else out

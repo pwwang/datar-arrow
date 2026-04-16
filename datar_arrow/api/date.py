@@ -33,8 +33,8 @@ def _(
         optional=optional,
         tz=tz,
         origin=origin,
-        __ast_fallback="normal",
-        __backend="arrow",
+        __ast_fallback="normal",  # type: ignore
+        __backend="arrow",  # type: ignore
     )
 
 
@@ -153,8 +153,8 @@ def _as_date_iter(
                 optional=optional,
                 origin=origin,
                 tz=tz,
-                __ast_fallback="normal",
-                __backend="arrow",
+                __ast_fallback="normal",  # type: ignore
+                __backend="arrow",  # type: ignore
             )
             for el in x
         ]

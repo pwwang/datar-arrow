@@ -191,9 +191,9 @@ class DatarArray(pa.ExtensionArray):
         return pa.ExtensionArray.from_storage(DatarArrayType(arr.type), arr)
 
 
-if hasattr(pa, "PyExtensionType"):
+if hasattr(pa, "PyExtensionType"):  # pragma: no cover
 
-    class DatarArrayType(pa.PyExtensionType):
+    class DatarArrayType(pa.PyExtensionType):  # type: ignore
         def __init__(self, t: type | pa.DataType | str):
             pa.PyExtensionType.__init__(self, get_dtype(t))
 

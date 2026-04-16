@@ -3,7 +3,6 @@ from __future__ import annotations
 from numbers import Number
 from typing import Any
 
-import numpy as np
 import pyarrow as pa
 import pyarrow.compute as pc
 import pyarrow.types as patypes
@@ -191,7 +190,7 @@ def _as_null(x: Any) -> None:
 
 @as_numeric.register(object, backend="arrow")
 @wrap_arrow_result
-def _as_numeric(x: Any) -> Number | np.ndarray[Number]:
+def _as_numeric(x: Any) -> Number | pa.Array:
     x_scalar = is_scalar(x)
     x = make_array(x)
     try:

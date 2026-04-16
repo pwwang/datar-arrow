@@ -67,6 +67,9 @@ def _outer(x, y, fun="*") -> List[pa.Array]:
     if fun == "*":
         return [make_array(o) for o in (np.outer(x, y))]
 
+    if isinstance(fun, str):  # pragma: no cover
+        fun = getattr(pc, fun, None) or getattr(np, fun)
+
     kwargs = {}
     if getattr(fun, "_pipda_functype", None) in (
         "pipeable",

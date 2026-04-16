@@ -17,6 +17,7 @@ jobs:
         pyarrow: [
           pyarrow==20.0.0,
           pyarrow==21.0.0,
+          pyarrow==22.0.0,
           pyarrow  # lastest
         ]
 

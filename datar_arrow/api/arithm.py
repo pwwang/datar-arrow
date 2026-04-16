@@ -207,7 +207,9 @@ def _signif(x, digits: int = 6):
         0,
         na_rm=True,
     ).cast("int64")
-    return make_array(round(i, d.as_py()) for i, d in zip(x, digits))
+    return make_array(
+        round(i, d.as_py()) for i, d in zip(x, digits)  # type: ignore
+    )
 
 
 @trunc.register(object, backend="arrow")
@@ -302,7 +304,7 @@ def _quantile(
     #     kw = {"interpolation": methods.get(type_, type_)}
     # else:  # pragma: no cover
     #     kw = {"method": methods.get(type_, type_)}
-    kw = {"interpolation": methods.get(type_, type_)}
+    kw = {"interpolation": methods.get(type_, type_)}  # type: ignore
     out = pc.quantile(x, probs, skip_nulls=na_rm, **kw)
     return out[0] if is_scalar(probs) else out
 

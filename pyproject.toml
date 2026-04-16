@@ -42,3 +42,4 @@ line-length = 89
 
 [tool.pyright]
 reportAttributeAccessIssue = false
+reportFunctionMemberAccess = false
