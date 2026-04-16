@@ -20,6 +20,9 @@ jobs:
           pyarrow==22.0.0,
           pyarrow  # lastest
         ]
+        exclude:
+          - python-version: 3.9
+            pyarrow: pyarrow==22.0.0
 
     steps:
       - uses: actions/checkout@v6
