@@ -20,7 +20,11 @@ all = ["scipy>=1.6", "wcwidth>=0.2"]
 arrow = "datar_arrow:plugin"
 
 [dependency-groups]
-dev = ["pytest>=7", "pytest-cov>=4"]
+dev = [
+    "flake8>=7.3.0",
+    "pytest>=7",
+    "pytest-cov>=4",
+]
 
 [build-system]
 requires = ["hatchling"]
